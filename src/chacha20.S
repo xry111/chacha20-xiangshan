@@ -88,6 +88,10 @@ chacha20:
 	lw		state1, 4(input)
 	lw		state2, 8(input)
 	lw		state3, 12(input)
+	mv		copy0, state0
+	mv		copy1, state1
+	mv		copy2, state2
+	mv		copy3, state3
 	lw		state4, 16(input)
 	lw		state5, 20(input)
 	lw		state6, 24(input)
@@ -102,6 +106,7 @@ chacha20:
 	lw		state15, 60(input)
 
 	li		i, 10
+	.p2align	4
 .Lpermute:
 	/* odd round */
 	OP_4REG	addw	line0, line1
@@ -140,10 +145,6 @@ chacha20:
 	addi		i, i, -1
 	bnez		i, .Lpermute
 
-	lw		copy0, (input)
-	lw		copy1, 4(input)
-	lw		copy2, 8(input)
-	lw		copy3, 12(input)
 	OP_4REG	addw	line0, copy
 	sw		state0, (output)
 	sw		state1, 4(output)
